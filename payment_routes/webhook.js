@@ -30,7 +30,7 @@ async function updateUserDonationStatus(userId, status) {
 // Middleware to handle raw body for Stripe
 export const stripeWebhookHandler = async (req, res) => {
     const sig = req.headers['stripe-signature'];
-    const endpointSecret = "whsec_683fc22d53ff8ef5d2e55858f3403bb8cca8b80b527365c5246b7b7bed3c18cd";
+    const endpointSecret = process.env.ENDPOINT_SECRET;
     
     
     let event; 
