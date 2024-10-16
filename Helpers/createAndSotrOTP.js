@@ -13,7 +13,7 @@ function createAndStoreOTP(userEmail, res) {
     }
 
     const otp = generateOTP();
-    const expirationTime = new Date(Date.now() + 5 * 60 * 1000);  // 5 minutes from now
+    const expirationTime = new Date(Date.now() + 10 * 60 * 1000);  // 5 minutes from now
 
     // res.json({otp})
 
@@ -33,21 +33,6 @@ function createAndStoreOTP(userEmail, res) {
             res.json({ status: true, reason: 'OTP generated and sent to email' });
             
             
-
-            // Set a timer to delete the OTP after 5 minutes
-            setTimeout(() => {
-                connection.query(
-                    'DELETE FROM otp_table WHERE `otp_code` = ? & `user_email` = ?',
-                    [otp, userEmail],
-                    (deleteErr) => {
-                        if (deleteErr) {
-                            console.error('Error deleting expired OTP:', deleteErr);
-                        } else {
-                            console.log(`OTP ${otp} deleted after 5 minutes.`);
-                        }
-                    }
-                );
-            }, 300000);  // 5 minutes in milliseconds
         }
     );
 }
