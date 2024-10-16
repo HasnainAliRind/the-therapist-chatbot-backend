@@ -5,15 +5,20 @@ let key = process.env.SIB_API_KEY;
 
 const apiInstance = new brevo.TransactionalEmailsApi();
 
-// Set the API key using setApiKey function
-apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, key);
+
+if (key) {
+  console.log(key)
+  // Set the API key using setApiKey function
+  apiInstance.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, key);
+
+}
 
 let sendSmtpEmail = new brevo.SendSmtpEmail();
 
 
 const sendingMail = async ({ from, to, subject, text }) => {
 
-
+  console.log("sending email ")
   try {
     sendSmtpEmail.subject = "Verify Your Email with This OTP Code";
     sendSmtpEmail.htmlContent = `
