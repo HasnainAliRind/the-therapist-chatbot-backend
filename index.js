@@ -32,6 +32,28 @@ app.use((req, res, next) => {
 
 initWebRoutes(app);
 
+// Function to delete expired OTPs from the database
+const deleteExpiredOTPs = () => {
+    const currentTime = new Date();  // Get the current time
+    connection.query(
+        'DELETE FROM otp_table WHERE expires_at < ?',
+        [currentTime],
+        (err, results) => {
+            if (err) {
+                console.error('Error deleting expired OTPs:', err);
+            } else {
+                console.log(`Deleted ${results.affectedRows} expired OTPs.`);
+            }
+        }
+    );
+}
+
+// Schedule the deleteExpiredOTPs function to run every 5 minutes
+setInterval(deleteExpiredOTPs, 5 * 60 * 1000);  // 5 minutes in milliseconds
+
+
+
+
 // app.use(express.json());
 // app.use(bodyParser.json());
 
