@@ -8,9 +8,9 @@ const confirm_email = async (req, res) => {
     let email = req.body.email;
 
     // Verifying OTP in DB
-    let verifyOTP = "SELECT * FROM otp_table WHERE `otp_code` = ? & `user_email` = ?"
+    let verifyOTP = "SELECT * FROM otp_table WHERE `otp_code` = ? AND `user_email` = ?"
 
-    await connection.query(verifyOTP, [otp, email], (error, results) => {
+    connection.query(verifyOTP, [otp, email], (error, results) => {
         if (error) return res.json({ status: false, verified: false, error, reason: "an error occured!" });
 
         if (results.length == 0) {
@@ -21,8 +21,6 @@ const confirm_email = async (req, res) => {
             return res.json({ status: true, verified: true })
         }
     })
-
-    
 
 }
 
