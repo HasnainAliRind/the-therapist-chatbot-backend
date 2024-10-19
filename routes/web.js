@@ -64,8 +64,10 @@ const initWebRoutes = (app) => {
                 return res.json({ status: false, reason: "Something went wrong, Please try again after some time!", err });
             }
 
-            if (results.length > 0)
-                return res.json({ status: false, reason: "The email is already used! consider login" });
+            if (results.length > 0{
+                createAndStoreOTP(userEmail, res);
+            }
+                // return res.json({ status: false, reason: "The email is already used! consider login" });
             if (results.length == 0) {
                 createAndStoreOTP(userEmail, res);
             }
