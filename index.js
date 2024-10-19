@@ -20,21 +20,29 @@ app.use((req, res, next) => {
     }
 }); // General JSON parsing middleware
 
-// Apply bodyParser.json() to all routes *except* /webhook
-// app.use((req, res, next) => {
-//   if (req.originalUrl === "/webhook") {
-//     next(); // Skip the JSON parsing middleware for /webhook
-//   } else {
-//     bodyParser.json()(req, res, next);
-//   }
-// });
-
-
 initWebRoutes(app);
 
-// app.use(express.json());
-// app.use(bodyParser.json());
 
-app.listen(8081, () => {
+// Function to delete expired OTPs from the database
+const deleteExpiredOTPs = () => {
+    const currentTime = new Date();  // Get the current time
+    connection.query(
+        'DELETE FROM otp_table WHERE expires_at < ?',
+        [currentTime],
+        (err, results) => {
+            if (err) {
+                console.error('Error deleting expired OTPs:', err);
+            } else {
+                console.log(`Deleted ${results.affectedRows} expired OTPs.`);
+            }
+        }
+    );
+}
+
+// Schedule the deleteExpiredOTPs function to run every 5 minutes
+setInterval(deleteExpiredOTPs, 5 * 60 * 1000);  // 5 minutes in milliseconds
+
+
+app.listen(8082, () => {
     console.log("Backend is running at http://localhost:8081....");
 });
