@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken"
 dotenv.config()
 
 
-const login = (req, res) => {
+const login = async (req, res) => {
     let sql = "SELECT * FROM users where `email` = ? and `password` = ?";
     let values = [
         req.body.email,
@@ -13,7 +13,7 @@ const login = (req, res) => {
     ];
     
 
-    connection.query(sql, values, async (err, result) => {
+    await connection.query(sql, values, async (err, result) => {
         if (err) return res.json({ login: false, reason: "Something went wrong", error: err });
         if (result.length > 0) {
             
