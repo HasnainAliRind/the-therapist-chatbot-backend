@@ -34,23 +34,6 @@ const donate = async (req, res) => {
         });
 
 
-        // Checking if the payment is confirmed
-        const checkSessionStatus = async (sessionId) => {
-            const session = await stripe.checkout.sessions.retrieve(sessionId);
-
-            console.log(session);
-            
-            // Check if payment was successful
-            if (session.payment_status === "paid") {
-                return true
-                // Perform post-payment actions like updating your database
-            } else {
-                return false
-            }
-        };
-        
-        setTimeout(() => checkSessionStatus(session.id), 2000);
-
         // Send the session ID back to the frontend to complete the checkout
         res.json({ status: true, id: session.id });
 
