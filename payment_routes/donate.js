@@ -7,6 +7,9 @@ const stripe = Stripe(process.env.STRIPE_SECRET);
 // checkout api
 
 const donate = async (req, res) => {
+    let cancel_url = process.env.FRONTEND_CANCEL_URL;
+    let success_url = process.env.FRONTEND_SUCCESS_URL;
+    
     try {
 
         const { amount, user_email } = req.body;
@@ -26,8 +29,8 @@ const donate = async (req, res) => {
                 },
             ],
             mode: "payment",
-            success_url: "http://localhost:3000/success",
-            cancel_url: "http://localhost:3000/cancel",
+            success_url: success_url,
+            cancel_url: cancel_url,
             metadata: {
                 user_email: user_email
             }
